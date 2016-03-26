@@ -1,0 +1,3 @@
+Execute (levenshtein distance):
+  AssertEqual gitignore#levenshtein_distance('kitten', 'sitting'), 3
+  AssertEqual gitignore#levenshtein_distance('elisp', 'commonlisp'), 6

@@ -18,3 +18,8 @@ This uses [gitignore collection hosted by GitHub](https://github.com/github/giti
 ## Configuration
 
 + `g:gitignore_template_dir = ~/.gitignore-boilerplates` (same as [gibo](https://github.com/simonwhitaker/gibo))
+
+## Additional features
+
++ Check if the specified patterns are already added
++ Infer the patterns by using Levenshtein-distance algorithm

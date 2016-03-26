@@ -1,0 +1,39 @@
+*gitignore.txt* Gitignore template utility
+*gitignore*
+
+==============================================================================
+TOC                                                         *gitignore-contents*
+
+  USAGE .......................... |gitignore-usage|
+  OPTIONS ........................ |gitignore-options|
+
+==============================================================================
+USAGE                                                          *gitignore-usage*
+
+To add the patterns for `foo` filetype to `.gitignore` in the project root:
+(`!` means that the existing `.gitignore` is discarded)
+>
+    :Gitignore[!] [foo...]
+<
+To add the patterns for the current buffer's filetype (currently not implemented):
+>
+    :Gitignore[!]
+<
+To update the gitignore collection:
+>
+    :GitignoreUpdate
+<
+==============================================================================
+OPTIONS                                                      *gitignore-options*
+                                                      *g:gitignore_template_dir*
+>
+    let g:gitignore_template_dir = '~/.gitignore-boilerplate'
+<
+This specify the directory which contains the gitignore collection.
+By default, this uses the same directory as gibo, which means no additional
+downloading even if using gibo.
+
+------------------------------------------------------------------------------
+
+==============================================================================
+vim:tw=78
