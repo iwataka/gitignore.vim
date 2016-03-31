@@ -94,7 +94,10 @@ fu! s:infer_type(keyword)
   let mind = 100
   for t in s:types()
     let dist = gitignore#levenshtein_distance(a:keyword, t)
-    if mind > dist
+    if dist == 0
+      let type = t
+      break
+    elseif mind > dist
       let type = t
       let mind = dist
     endif
