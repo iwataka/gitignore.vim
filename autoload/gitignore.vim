@@ -1,26 +1,17 @@
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
-if !exists('g:gitignore_template_dir')
-  let g:gitignore_template_dir = '~/.gitignore-boilerplates'
+if !exists('g:gitignore_dir')
+  let g:gitignore_dir = '~/.gitignore-boilerplates'
 endif
 let s:gitignore_url = 'https://github.com/github/gitignore'
 
 fu! gitignore#gitignore(bang, ...)
-  let types = copy(a:000)
   if !a:0
-    let type = s:infer_type(&ft)
-    echo 'You mean '.type.'(y/n)?'
-    if nr2char(getchar()) =~ '\v\cy'
-      let types = [type]
-    endif
-    redraw!
-  endif
-  if empty(types)
     return
   endif
 
-  let template_dir = s:validate_path(g:gitignore_template_dir)
+  let template_dir = s:validate_path(g:gitignore_dir)
   " Clone the gitignore collection if not exists
   if !isdirectory(template_dir)
     call gitignore#update()
@@ -39,7 +30,7 @@ fu! gitignore#gitignore(bang, ...)
     let gitignore = root.'/.gitignore'
   endif
 
-  let blocks = map(types, 's:patterns(v:val)')
+  let blocks = map(copy(a:000), 's:patterns(v:val)')
   if !a:bang && filereadable(gitignore)
     let content = readfile(gitignore)
     call filter(blocks, '!s:check_inclusion(content, v:val)')
@@ -50,7 +41,7 @@ fu! gitignore#gitignore(bang, ...)
 endfu
 
 fu! gitignore#update()
-  let template_dir = s:validate_path(g:gitignore_template_dir)
+  let template_dir = s:validate_path(g:gitignore_dir)
   if isdirectory(template_dir)
     let cwd = getcwd()
     " There are some ways to execute Git commands outside the repository, but
@@ -72,7 +63,7 @@ fu! gitignore#complete(A, L, P)
 endfu
 
 fu! s:patterns(type)
-  let template_dir = s:validate_path(g:gitignore_template_dir)
+  let template_dir = s:validate_path(g:gitignore_dir)
   let result = []
   for file in split(glob(template_dir.'/**/'.a:type.'.gitignore'), '\n')
     let result += readfile(file)
@@ -81,28 +72,12 @@ fu! s:patterns(type)
 endfu
 
 fu! s:types()
-  let template_dir = s:validate_path(g:gitignore_template_dir)
+  let template_dir = s:validate_path(g:gitignore_dir)
   let list = split(globpath(template_dir, '**/*.gitignore'), '\n')
   call map(list, 'fnamemodify(v:val, ":t")')
   call map(list, 'substitute(v:val, "\\v\\.gitignore$", "", "")')
   let s:types = list
   return s:types
-endfu
-
-fu! s:infer_type(keyword)
-  let type = ''
-  let mind = 100
-  for t in s:types()
-    let dist = gitignore#levenshtein_distance(a:keyword, t)
-    if dist == 0
-      let type = t
-      break
-    elseif mind > dist
-      let type = t
-      let mind = dist
-    endif
-  endfor
-  return type
 endfu
 
 fu! s:project_root(cwd)
@@ -153,22 +128,6 @@ fu! s:check_inclusion(whole, part)
     endif
   endfor
   return 1
-endfu
-
-fu! gitignore#levenshtein_distance(a, b)
-  return s:levenshtein_distance(a:a, a:b, len(a:a), len(a:b))
-endfu
-
-fu! s:levenshtein_distance(a, b, i, j)
-  if a:i == 0 || a:j == 0
-    return max([a:i, a:j])
-  else
-    return min([
-          \ s:levenshtein_distance(a:a, a:b, a:i - 1, a:j) + 1,
-          \ s:levenshtein_distance(a:a, a:b, a:i, a:j - 1) + 1,
-          \ s:levenshtein_distance(a:a, a:b, a:i - 1, a:j - 1) + !(a:a[a:i - 1] == a:b[a:j - 1])
-          \ ])
-  endif
 endfu
 
 let &cpo = s:save_cpo

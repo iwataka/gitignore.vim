@@ -4,36 +4,44 @@
 ==============================================================================
 TOC                                                         *gitignore-contents*
 
+  INTRODUCTION ................... |gitignore-introduction|
   USAGE .......................... |gitignore-usage|
   OPTIONS ........................ |gitignore-options|
 
 ==============================================================================
+INTRODUCTION                                            *gitignore-introduction*
+
+Git is now must-have version control system and you must write .gitignore
+files when using it. Sometimes they become large and complicated, but GitHub
+provides the official collection of .gitignore templates in
+https://github.com/github/gitignore, so why don't you use it?
+
+You can use them in Vim with great ease.
+
+==============================================================================
 USAGE                                                          *gitignore-usage*
 
-To add the patterns for `foo` filetype to `.gitignore` in the project root:
+To add the patterns for `foo` filetype to `.gitignore` in your project root:
 (`!` means that the existing `.gitignore` is discarded)
 >
     :Gitignore[!] [foo...]
 <
-To add the patterns for the current buffer's filetype (currently not implemented):
->
-    :Gitignore[!]
-<
-To update the gitignore collection:
+This automatically clone the gitignore template collection at the first time
+to run this command.
+
+And to update the .gitignore template collection:
 >
     :GitignoreUpdate
 <
 ==============================================================================
 OPTIONS                                                      *gitignore-options*
-                                                      *g:gitignore_template_dir*
+                                                      *g:gitignore_dir*
 >
-    let g:gitignore_template_dir = '~/.gitignore-boilerplate'
+    let g:gitignore_dir = '~/.gitignore-boilerplate'
 <
-This specify the directory which contains the gitignore collection.
+This specify the directory which contains the .gitignore template collection.
 By default, this uses the same directory as gibo, which means no additional
 downloading even if using gibo.
-
-------------------------------------------------------------------------------
 
 ==============================================================================
 vim:tw=78
