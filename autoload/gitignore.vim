@@ -30,7 +30,7 @@ fu! gitignore#gitignore(bang, ...)
     let gitignore = root.'/.gitignore'
   endif
 
-  let blocks = map(copy(a:000), 's:patterns(v:val)')
+  let blocks = map(copy(a:000), 'gitignore#patterns(v:val)')
   if !a:bang && filereadable(gitignore)
     let content = readfile(gitignore)
     call filter(blocks, '!s:check_inclusion(content, v:val)')
@@ -62,7 +62,7 @@ fu! gitignore#complete(A, L, P)
   return filter(s:types(), 'v:val =~ "^".a:A')
 endfu
 
-fu! s:patterns(type)
+fu! gitignore#patterns(type)
   let template_dir = s:validate_path(g:gitignore_dir)
   let result = []
   for file in split(glob(template_dir.'/**/'.a:type.'.gitignore'), '\n')
