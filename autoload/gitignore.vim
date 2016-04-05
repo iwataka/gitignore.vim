@@ -59,7 +59,7 @@ fu! gitignore#update()
 endfu
 
 fu! gitignore#complete(A, L, P)
-  return filter(s:types(), 'v:val =~ "^".a:A')
+  return filter(gitignore#types(), 'v:val =~ "^".a:A')
 endfu
 
 fu! gitignore#patterns(type)
@@ -71,13 +71,12 @@ fu! gitignore#patterns(type)
   return result
 endfu
 
-fu! s:types()
+fu! gitignore#types()
   let template_dir = s:validate_path(g:gitignore_dir)
   let list = split(globpath(template_dir, '**/*.gitignore'), '\n')
   call map(list, 'fnamemodify(v:val, ":t")')
   call map(list, 'substitute(v:val, "\\v\\.gitignore$", "", "")')
-  let s:types = list
-  return s:types
+  return list
 endfu
 
 fu! s:project_root(cwd)
