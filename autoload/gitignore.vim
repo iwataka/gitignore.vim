@@ -34,7 +34,7 @@ fu! gitignore#gitignore(bang, ...)
   if !a:bang && filereadable(gitignore)
     let content = readfile(gitignore)
     call filter(blocks, '!s:check_inclusion(content, v:val)')
-    let blocks = [readfile(gitignore)] + blocks
+    let blocks = [content] + blocks
   endif
   let lines = s:join_blocks(blocks)
   call writefile(lines, gitignore)
