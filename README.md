@@ -25,6 +25,14 @@ You can use them in Vim with great ease.
 
     This updates the .gitignore template collection in `g:gitignore_dir`.
 
+## Installation
+
+This can be installed by using any plugin-managers like [Vundle.vim](https://github.com/VundleVim/Vundle.vim), but if you don't have your favorite one, I recommend [vim-plug](https://github.com/junegunn/vim-plug).
+
+```vim
+Plug 'iwataka/gitignore.vim'
+```
+
 ## Configuration
 
 + `g:gitignore_dir` (default value: `~/.gitignore-boilerplates`)
