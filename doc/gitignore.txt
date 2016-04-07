@@ -4,9 +4,10 @@
 ==============================================================================
 TOC                                                         *gitignore-contents*
 
-  INTRODUCTION ................... |gitignore-introduction|
-  USAGE .......................... |gitignore-usage|
-  OPTIONS ........................ |gitignore-options|
+    INTRODUCTION ................... |gitignore-introduction|
+    USAGE .......................... |gitignore-usage|
+    OPTIONS ........................ |gitignore-options|
+    COMMANDS ....................... |gitignore-commands|
 
 ==============================================================================
 INTRODUCTION                                            *gitignore-introduction*
@@ -42,6 +43,26 @@ OPTIONS                                                      *gitignore-options*
 This specify the directory which contains the .gitignore template collection.
 By default, this uses the same directory as gibo, which means no additional
 downloading even if using gibo.
+
+==============================================================================
+COMMANDS                                                    *gitignore-commands*
+                                                          *gitignore-:Gitignore*
+>
+    :Gitignore
+<
+Shows you the list of available arguments.
+>
+    :Gitignore[!] [Foo...]
+<
+Adds patterns for the given arguments to `.gitignore` in your project root.
+If [!] is given, the existing `.gitignore` content is discarded.
+
+------------------------------------------------------------------------------
+                                                    *gitignore-:GitignoreUpdate*
+>
+    :GitignoreUpdate
+<
+Updates the .gitignore template collection.
 
 ==============================================================================
 vim:tw=78

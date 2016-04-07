@@ -8,12 +8,19 @@ let s:gitignore_url = 'https://github.com/github/gitignore'
 
 fu! gitignore#gitignore(bang, ...)
   if !a:0
-    return
+    echo '== Languages =='
+    echo "\n"
+    echo join(gitignore#languages(), "\t")
+    echo "\n"
+    echo '== Global =='
+    echo "\n"
+    echo join(gitignore#globals(), "\t")
+    echo "\n"
   endif
 
-  let template_dir = s:validate_path(g:gitignore_dir)
+  let dir = s:validate_path(g:gitignore_dir)
   " Clone the gitignore collection if not exists
-  if !isdirectory(template_dir)
+  if !isdirectory(dir)
     call gitignore#update()
   endif
 
@@ -41,39 +48,47 @@ fu! gitignore#gitignore(bang, ...)
 endfu
 
 fu! gitignore#update()
-  let template_dir = s:validate_path(g:gitignore_dir)
-  if isdirectory(template_dir)
+  let dir = s:validate_path(g:gitignore_dir)
+  if isdirectory(dir)
     let cwd = getcwd()
     " There are some ways to execute Git commands outside the repository, but
     " they depend on the version and version detection is not easy.
     " See http://stackoverflow.com/questions/5083224/git-pull-while-not-in-a-git-directory and others
     " git --git-dir=~/foo/.git --work-tree=~/foo status
     " git -C ~/foo status (since Git 2.3.4, March 2015)
-    call s:cd_or_lcd(template_dir)
+    call s:cd_or_lcd(dir)
     call system('git pull origin master')
     call s:cd_or_lcd(cwd)
   else
     let cmd = 'git clone '.s:gitignore_url
-    call system(cmd.' '.template_dir)
+    call system(cmd.' '.dir)
   endif
 endfu
 
 fu! gitignore#complete(A, L, P)
-  return filter(gitignore#types(), 'v:val =~ "^".a:A')
+  return filter(gitignore#languages() + gitignore#globals(), 'v:val =~ "^".a:A')
 endfu
 
 fu! gitignore#patterns(type)
-  let template_dir = s:validate_path(g:gitignore_dir)
+  let dir = s:validate_path(g:gitignore_dir)
   let result = []
-  for file in split(glob(template_dir.'/**/'.a:type.'.gitignore'), '\n')
+  for file in split(glob(dir.'/**/'.a:type.'.gitignore'), '\n')
     let result += readfile(file)
   endfor
   return result
 endfu
 
-fu! gitignore#types()
-  let template_dir = s:validate_path(g:gitignore_dir)
-  let list = split(globpath(template_dir, '**/*.gitignore'), '\n')
+fu! gitignore#languages()
+  return s:list('*.gitignore')
+endfu
+
+fu! gitignore#globals()
+  return s:list('Global/*.gitignore')
+endfu
+
+fu! s:list(glob)
+  let dir = s:validate_path(g:gitignore_dir)
+  let list = split(globpath(dir, a:glob), '\n')
   call map(list, 'fnamemodify(v:val, ":t")')
   call map(list, 'substitute(v:val, "\\v\\.gitignore$", "", "")')
   return list
