@@ -1,11 +1,11 @@
-# Gitignore.vim
+# gitignore.vim
 
 [Git](https://git-scm.com/) is now must-have version control system and you
 write .gitignore files when using it. Sometimes they become large and
 complicated, but GitHub provides the official collection of .gitignore
 templates in
 [https://github.com/github/gitignore](https://github.com/github/gitignore), so
-why don't you use it?
+why don't you use them?
 
 You can use them in Vim with great ease.
 
@@ -18,7 +18,7 @@ You can use them in Vim with great ease.
 
 + `:Gitignore! [Foo...]`
 
-    This is almost the same as above, but discard the existing `.gitignore`
+    This is almost the same as the above, but discard the existing `.gitignore`
     content before.
 
 + `:GitignoreUpdate`
@@ -27,11 +27,18 @@ You can use them in Vim with great ease.
 
 ## Installation
 
-This can be installed by using any plugin-managers like [Vundle.vim](https://github.com/VundleVim/Vundle.vim), but if you don't have your favorite one, I recommend [vim-plug](https://github.com/junegunn/vim-plug).
+This can be installed by using any plugin-managers like
+[Vundle.vim](https://github.com/VundleVim/Vundle.vim), but if you don't have
+your favorite one, I recommend
+[vim-plug](https://github.com/junegunn/vim-plug).
+
+Install it and write the below line in your `.vimrc`:
 
 ```vim
 Plug 'iwataka/gitignore.vim'
 ```
+
+For other plugin-managers, please see their own documents.
 
 ## Configuration
 
