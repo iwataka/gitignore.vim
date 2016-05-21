@@ -4,6 +4,10 @@ set cpoptions&vim
 if !exists('g:gitignore_dir')
   let g:gitignore_dir = '~/.gitignore-boilerplates'
 endif
+if !exists('g:gitignore_enable_shallow_clone')
+  let g:gitignore_enable_shallow_clone = 1
+endif
+
 let s:gitignore_url = 'https://github.com/github/gitignore'
 
 fu! gitignore#gitignore(bang, ...)
@@ -60,7 +64,8 @@ fu! gitignore#update()
     call system('git pull origin master')
     call s:cd_or_lcd(cwd)
   else
-    let cmd = 'git clone '.s:gitignore_url
+    let args = g:gitignore_enable_shallow_clone ? ' --depth 1' : ''
+    let cmd = 'git clone '.s:gitignore_url.args
     call system(cmd.' '.dir)
   endif
 endfu
