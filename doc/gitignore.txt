@@ -36,13 +36,20 @@ And to update the .gitignore template collection:
 <
 ==============================================================================
 OPTIONS                                                      *gitignore-options*
-                                                      *g:gitignore_dir*
+                                                               *g:gitignore_dir*
 >
     let g:gitignore_dir = '~/.gitignore-boilerplate'
 <
 This specify the directory which contains the .gitignore template collection.
 By default, this uses the same directory as gibo, which means no additional
 downloading even if using gibo.
+
+------------------------------------------------------------------------------
+                                              *g:gitignore_enable_shallow_clone*
+>
+    let g:gitignore_enable_shallow_clone = 1
+<
+If this value is non-zero, this plug-in uses shallow-clone.
 
 ==============================================================================
 COMMANDS                                                    *gitignore-commands*

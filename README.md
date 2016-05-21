@@ -49,6 +49,10 @@ For other plugin-managers, please see their own documents.
     [gibo](https://github.com/simonwhitaker/gibo), which means no additional
     downloading even if using [gibo](https://github.com/simonwhitaker/gibo).
 
++ `g:gitignore_enable_shallow_clone` (default value: 1)
+
+    If this value is non-zero, this plug-in uses shallow-clone.
+
 ## Additional features
 
 + You'll see no duplicated patterns even if running `Gitignore Foo` twice!
