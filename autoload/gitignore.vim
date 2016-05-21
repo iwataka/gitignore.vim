@@ -11,6 +11,8 @@ endif
 let s:gitignore_url = 'https://github.com/github/gitignore'
 
 fu! gitignore#gitignore(bang, ...)
+  call s:assure_gitignore_collection()
+
   if !a:0
     echo '== Languages =='
     echo "\n"
@@ -20,12 +22,6 @@ fu! gitignore#gitignore(bang, ...)
     echo "\n"
     echo join(gitignore#globals(), "\t")
     echo "\n"
-  endif
-
-  let dir = s:validate_path(g:gitignore_dir)
-  " Clone the gitignore collection if not exists
-  if !isdirectory(dir)
-    call gitignore#update()
   endif
 
   " Detect the project root
@@ -92,6 +88,8 @@ fu! gitignore#globals()
 endfu
 
 fu! s:list(glob)
+  call s:assure_gitignore_collection()
+
   let dir = s:validate_path(g:gitignore_dir)
   let list = split(globpath(dir, a:glob), '\n')
   call map(list, 'fnamemodify(v:val, ":t")')
@@ -147,6 +145,14 @@ fu! s:check_inclusion(whole, part)
     endif
   endfor
   return 1
+endfu
+
+fu! s:assure_gitignore_collection()
+  let dir = s:validate_path(g:gitignore_dir)
+  " Clone the gitignore collection if not exists
+  if !isdirectory(dir)
+    call gitignore#update()
+  endif
 endfu
 
 let &cpo = s:save_cpo
