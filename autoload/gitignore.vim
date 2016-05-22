@@ -13,17 +13,6 @@ let s:gitignore_url = 'https://github.com/github/gitignore'
 fu! gitignore#gitignore(bang, ...)
   call s:assure_gitignore_collection()
 
-  if !a:0
-    echo '== Languages =='
-    echo "\n"
-    echo join(gitignore#languages(), "\t")
-    echo "\n"
-    echo '== Global =='
-    echo "\n"
-    echo join(gitignore#globals(), "\t")
-    echo "\n"
-  endif
-
   " Detect the project root
   let root = s:project_root(expand('%:p'))
   if empty(root)
